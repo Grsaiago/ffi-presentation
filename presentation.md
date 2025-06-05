@@ -16,6 +16,11 @@ theme:
       style: template
       center: "{title}"
       right: "{current_slide} / {total_slides}"
+    palette:
+      classes:
+        text_highlight:
+          background: "fabd2f"
+          foreground: "282828"
 ---
 
 \> O que é?
@@ -30,7 +35,6 @@ Chamar uma função que foi implementada numa linguagem X dentro de uma linguage
 void manda_um_oi() {
   printf("oi de dentro do C");
 }
-
 /// int main(void) {
 ///   manda_um_oi();
 /// }
@@ -40,7 +44,7 @@ void manda_um_oi() {
 
 O objetivo é chamar em:
 
-<!-- column_layout: [1, 1]-->
+<!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 ## Rust
@@ -87,7 +91,7 @@ da CPU e das implementações de C.
 
 <!-- pause -->
 
-<!-- column_layout: [1, 1]-->
+<!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 
@@ -144,3 +148,57 @@ pub struct StructEmRust {
 | 8      | 2    | `var2: u16` |
 | 10     | 2    | `var4: u16` |
 <!-- end_slide -->
+
+\> Mas antes, uma palavra dos nossos ~patrocinadores~ conceitos
+===
+# Name Mangling
+
+O compilador não pode definir duas funções com o mesmo nome!
+
+> "Claro que não, Saiago!
+> C++ tem overload de função e compila"
+
+<!-- pause -->
+
+## Exemplos
+
+<!-- column_layout: [1, 1] -->
+
+<!-- pause -->
+
+<!-- column: 0 -->
+Uma função com essas assinaturas:
+
+```c++
+int func_que_recebe(char input);
+int func_que_recebe(std::string input);
+int func_que_recebe(char *input);
+```
+
+<!-- pause -->
+
+vira isso aqui na compilação:
+
+<span class="text_highlight">i</span>func_que_recebe<span class="text_highlight">c</span>\
+<span class="text_highlight">i</span>func_que_recebe<span class="text_highlight">str</span>\
+<span class="text_highlight">i</span>func_que_recebe<span class="text_highlight">cptr</span>
+
+<!-- pause -->
+
+<!-- column: 1 -->
+
+Essas funções em c++
+
+```c++ +exec
+/// #include <iostream>
+/// #include <typeinfo>
+void func_que_recebe(char input) {}
+void func_que_recebe(std::string input) {}
+void func_que_recebe(char *input) {}
+/// int main(void) {
+///   std::cout << typeid(static_cast<void(*)(char)>(func_que_recebe)).name()<< std::endl;
+///   std::cout << typeid(static_cast<void(*)(std::string)>(func_que_recebe)).name()<< std::endl;
+///   std::cout << typeid(static_cast<void(*)(char*)>(func_que_recebe)).name()<< std::endl;
+/// }
+```
+
