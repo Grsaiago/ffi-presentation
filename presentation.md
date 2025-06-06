@@ -29,15 +29,10 @@ theme:
 Chamar uma função que foi implementada numa linguagem X dentro de uma linguagem Y
 <!-- pause -->
 
-```c +exec
-// C
-/// #include <stdio.h>
+```c
 void manda_um_oi() {
   printf("oi de dentro do C");
 }
-/// int main(void) {
-///   manda_um_oi();
-/// }
 ```
 
 <!-- pause -->
@@ -85,9 +80,14 @@ def main():
 
 A ABI define as '_regras do jogo_', ela '_amarra_' as regras do S.O,
 da CPU e das implementações de C.
+
+> [!IMPORTANT]
+> Cada compilador segue uma ABI, atualmente o GCC e o Clang usam a [Itanium C++ ABI](https://itanium-cxx-abi.github.io/cxx-abi/abi.html),
+> Como especificado no [source code do GCC](https://github.com/gcc-mirror/gcc/blob/master/gcc/cp/mangle.cc)
+
 <!-- pause -->
 
-# Diferentes linguagens representam estruturas de formas diferentes #
+## Diferentes linguagens representam estruturas de formas diferentes ##
 
 <!-- pause -->
 
@@ -112,14 +112,14 @@ typedef struct s_StructEmC {
 ```
 <!-- pause -->
 
-| Offset | Size | Field           |
-| ------ | ---- | ----------------|
-| 0      | 4    | `var1: uint32_t`|
-| 4      | 2    | `var2: uint16_t`|
-| 6      | 2    | `[padding]`     |
-| 8      | 4    | `var3: uint32_t`|
-| 12     | 2    | `var4: uint16_t`|
-| 14     | 2    | `[padding]`     |
+| Offset | Tamanho  |     Campo       |
+| :----: | :------: | :-------------: |
+| 0      | 4        | `var1: uint32_t`|
+| 4      | 2        | `var2: uint16_t`|
+| 6      | 2        | `[padding]`     |
+| 8      | 4        | `var3: uint32_t`|
+| 12     | 2        | `var4: uint16_t`|
+| 14     | 2        | `[padding]`     |
 
 <!-- pause -->
 
@@ -141,17 +141,18 @@ pub struct StructEmRust {
 
 <!-- pause -->
 
-| Offset | Size | Field       |
-| ------ | ---- | ------------|
-| 0      | 4    | `var1: u32` |
-| 4      | 4    | `var3: u32` |
-| 8      | 2    | `var2: u16` |
-| 10     | 2    | `var4: u16` |
+| Offset | Tamanho  |   Campo     |
+| :----: | :------: | :---------: |
+| 0      | 4        | `var1: u32` |
+| 4      | 4        | `var3: u32` |
+| 8      | 2        | `var2: u16` |
+| 10     | 2        | `var4: u16` |
 <!-- end_slide -->
 
 \> Mas antes, uma palavra dos nossos ~patrocinadores~ conceitos
 ===
-# Name Mangling
+
+# Name Mangling #
 
 O compilador não pode definir duas funções com o mesmo nome!
 
@@ -160,7 +161,7 @@ O compilador não pode definir duas funções com o mesmo nome!
 
 <!-- pause -->
 
-## Exemplos
+## Exemplos ##
 
 <!-- column_layout: [1, 1] -->
 
@@ -201,4 +202,3 @@ void func_que_recebe(char *input) {}
 ///   std::cout << typeid(static_cast<void(*)(char*)>(func_que_recebe)).name()<< std::endl;
 /// }
 ```
-

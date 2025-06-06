@@ -1,0 +1,4 @@
+export:
+  dimensions:
+    rows: 40
+    columns: 124
