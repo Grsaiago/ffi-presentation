@@ -79,11 +79,10 @@ def main():
 <!-- pause -->
 
 A ABI define as '_regras do jogo_', ela '_amarra_' as regras do S.O,
-da CPU e das implementações de C.
+da CPU e da implementação das especifições de uma linguagem.
 
 > [!IMPORTANT]
-> Cada compilador segue uma ABI, atualmente o GCC e o Clang usam a [Itanium C++ ABI](https://itanium-cxx-abi.github.io/cxx-abi/abi.html),
-> Como especificado no [source code do GCC](https://github.com/gcc-mirror/gcc/blob/master/gcc/cp/mangle.cc)
+> O Compilador escolhe a ABI de acordo com o target da compilação. Por ex, para x86-64, o seu compilador provavelmente vai seguir a System-V ABI
 
 <!-- pause -->
 
@@ -97,7 +96,7 @@ da CPU e das implementações de C.
 
 Struct em `C`
 
-```c +exec
+```c
 /// #include<stdio.h>
 /// #include<stdint.h>
 typedef struct s_StructEmC {
@@ -112,21 +111,22 @@ typedef struct s_StructEmC {
 ```
 <!-- pause -->
 
-| Offset | Tamanho  |     Campo       |
-| :----: | :------: | :-------------: |
-| 0      | 4        | `var1: uint32_t`|
-| 4      | 2        | `var2: uint16_t`|
-| 6      | 2        | `[padding]`     |
-| 8      | 4        | `var3: uint32_t`|
-| 12     | 2        | `var4: uint16_t`|
-| 14     | 2        | `[padding]`     |
+
+| Offset | Bytes |    Campo    |
+| :----: | :---: | :---------: |
+|   0    |   4   | `var1: 32_t`|
+|   4    |   2   | `var2: 16_t`|
+|   6    |   2   | `[padding]` |
+|   8    |   4   | `var3: 32_t`|
+|   12   |   2   | `var4: 16_t`|
+|   14   |   2   | `[padding]` |
 
 <!-- pause -->
 
 <!-- column: 1 -->
 Struct em `Rust`
 
-```rust +exec
+```rust
 # #[allow(dead_code)]
 pub struct StructEmRust {
   var1: u32,
@@ -147,6 +147,7 @@ pub struct StructEmRust {
 | 4      | 4        | `var3: u32` |
 | 8      | 2        | `var2: u16` |
 | 10     | 2        | `var4: u16` |
+
 <!-- end_slide -->
 
 \> Mas antes, uma palavra dos nossos ~patrocinadores~ conceitos
@@ -159,15 +160,13 @@ O compilador não pode definir duas funções com o mesmo nome!
 > "Claro que não, Saiago!
 > C++ tem overload de função e compila"
 
+
 <!-- pause -->
 
 ## Exemplos ##
 
-<!-- column_layout: [1, 1] -->
-
 <!-- pause -->
 
-<!-- column: 0 -->
 Uma função com essas assinaturas:
 
 ```c++
@@ -184,21 +183,12 @@ vira isso aqui na compilação:
 <span class="text_highlight">i</span>func_que_recebe<span class="text_highlight">str</span>\
 <span class="text_highlight">i</span>func_que_recebe<span class="text_highlight">cptr</span>
 
+* Não vira exatamente isso, a especificação real você pode ver no [source code do GCC](https://github.com/gcc-mirror/gcc/blob/master/gcc/cp/mangle.cc)
+
+<!-- end_slide -->
+
+
+\> Mão na massa
+===
+
 <!-- pause -->
-
-<!-- column: 1 -->
-
-Essas funções em c++
-
-```c++ +exec
-/// #include <iostream>
-/// #include <typeinfo>
-void func_que_recebe(char input) {}
-void func_que_recebe(std::string input) {}
-void func_que_recebe(char *input) {}
-/// int main(void) {
-///   std::cout << typeid(static_cast<void(*)(char)>(func_que_recebe)).name()<< std::endl;
-///   std::cout << typeid(static_cast<void(*)(std::string)>(func_que_recebe)).name()<< std::endl;
-///   std::cout << typeid(static_cast<void(*)(char*)>(func_que_recebe)).name()<< std::endl;
-/// }
-```
