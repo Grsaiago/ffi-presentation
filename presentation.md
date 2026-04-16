@@ -78,11 +78,16 @@ def main():
 # ABI (Abstract Binary Interface) #
 <!-- pause -->
 
-A ABI define as '_regras do jogo_', ela '_amarra_' as regras do S.O,
-da CPU e da implementação das especifições de uma linguagem.
+Uma ABI define as '_regras do jogo_' entre o sistema operacional e o hardware (e, por sua vez, a linguagem que a gente programa).
+Existem duas ABIs principais:
+
+<!-- pause -->
+
+- [A de windows](https://learn.microsoft.com/en-us/cpp/build/x64-software-conventions?view=msvc-170)
+- [E a System-V ABI (unix)](https://learn.microsoft.com/en-us/cpp/build/x64-software-conventions?view=msvc-170)
 
 > [!IMPORTANT]
-> O Compilador escolhe a ABI de acordo com o target da compilação. Por ex, para x86-64, o seu compilador provavelmente vai seguir a System-V ABI
+> O Compilador escolhe a ABI de acordo com o target da compilação. Por ex, para x86_64-unknown-linux-gnu, o seu compilador provavelmente vai seguir a System-V ABI
 
 <!-- pause -->
 
@@ -188,7 +193,55 @@ vira isso aqui na compilação:
 <!-- end_slide -->
 
 
-\> Mão na massa
+\> Mão na massa (C)
 ===
 
 <!-- pause -->
+Para usar funções em C:
+
+```rust
+#[link(name = "nome_da_lib_que_vamos_linkar")]
+extern "C" { 
+    // ...funções que vamos importar
+}
+```
+E podemos fazer uso da crate [cc](https://github.com/rust-lang/cc-rs) para compilar essa lib de C quando compilamos nosso código em rust
+
+<!-- pause -->
+> [!IMPORTANT]
+> se você já tiver um arquivo `.h`, pode usar a cli [bindgen](https://docs.rs/bindgen/latest/bindgen/)
+
+<!-- pause -->
+Para exportar funções em C, usamos 
+
+```rust
+#[unsafe(no_mangle)]
+extern "C" fn func_usada_em_c(numero c_int) {
+    //...
+}
+```
+
+<!-- end_slide -->
+
+
+\> Mão na massa (Python)
+===
+
+Vamos usar o [py03](https://pyo3.rs/v0.28.2/getting-started.html) com [maturin](https://www.maturin.rs/) para criar uma lib em rust e expor em python!
+
+A gente cria um projeto com o maturin usando:
+```sh
+maturin init 
+```
+
+Depois de escrever nosso código criamos um ambiente virtual, no meu caso com UV:
+
+```sh
+uv venv && source .venv/bin/activate
+``` 
+
+E fazemos o bundle da lib com maturin:
+```sh
+maturin develop
+```
+<!-- end_slide -->

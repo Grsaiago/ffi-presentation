@@ -1,0 +1,1 @@
+/home/gsaiago/estudo/ffi-presentation/examples/c/target/debug/c: /home/gsaiago/estudo/ffi-presentation/examples/c/build.rs /home/gsaiago/estudo/ffi-presentation/examples/c/c_src/*.c /home/gsaiago/estudo/ffi-presentation/examples/c/src/main.rs
