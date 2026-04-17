@@ -227,7 +227,7 @@ extern "C" fn func_usada_em_c(numero c_int) {
 \> Mão na massa (Python)
 ===
 
-Vamos usar o [py03](https://pyo3.rs/v0.28.2/getting-started.html) com [maturin](https://www.maturin.rs/) para criar uma lib em rust e expor em python!
+Vamos usar o [pyo3](https://pyo3.rs/v0.28.2/getting-started.html) com [maturin](https://www.maturin.rs/) para criar uma lib em rust e expor em python!
 
 A gente cria um projeto com o maturin usando:
 ```sh
@@ -245,3 +245,8 @@ E fazemos o bundle da lib com maturin:
 maturin develop
 ```
 <!-- end_slide -->
+
+\> Muito obrigado ❤️❤️
+===
+
+![image:width:50%](assets/linkedin_qrcode.jpg)
